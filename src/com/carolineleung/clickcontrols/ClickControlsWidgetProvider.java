@@ -45,4 +45,19 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
+
+	// @Override
+	// public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+	// Log.w("ClickControlsWidget", "onUpdate method called");
+	// // Get all ids
+	// ComponentName thisWidget = new ComponentName(context, ClickControlsWidgetProvider.class);
+	// int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+	//
+	// // Build the intent to call the service
+	// Intent intent = new Intent(context.getApplicationContext(), ClickControlsWidgetService.class);
+	// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+	//
+	// // Update the widgets via the service
+	// context.startService(intent);
+	// }
 }
