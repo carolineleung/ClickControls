@@ -31,9 +31,9 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 			wifiEnabled = !wifiEnabled;
 			wifiManager.setWifiEnabled(wifiEnabled);
 			String wifiEnabledText = wifiEnabled ? "on" : "off";
-			Log.i("ClickControlsWidget", "wifi is " + wifiEnabledText + " - " + String.valueOf(number));
+			Log.i("ClickControlsWidget", "wifi is " + wifiEnabledText + "_" + String.valueOf(number));
 
-			remoteViews.setTextViewText(R.id.indicator, wifiEnabledText);
+			remoteViews.setTextViewText(R.id.indicator, wifiEnabledText + "_" + String.valueOf(number));
 
 			// Register an onClickListener
 			Intent intent = new Intent(context, ClickControlsWidgetProvider.class);
@@ -41,7 +41,7 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-			remoteViews.setOnClickPendingIntent(R.id.text, pendingIntent);
+			remoteViews.setOnClickPendingIntent(R.id.control, pendingIntent);
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
