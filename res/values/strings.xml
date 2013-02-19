@@ -7,5 +7,6 @@
     <string name="wifi">wifi</string>
     <string name="threeG">3G</string>
     <string name="vibrate">vibrate</string>
+    <string name="toggle_desc">Toggle Description</string>
 
 </resources>

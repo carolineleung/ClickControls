@@ -18,13 +18,25 @@
         android:text="@string/wifi" >
     </TextView>
 
+    <ImageButton
+        android:id="@+id/toggleImage"
+        android:contentDescription="@string/toggle_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="3dp"
+        android:background="#ffa500" />
+
     <TextView
-        android:id="@+id/indicator"
+        android:id="@+id/indicatorText"
         style="@android:style/TextAppearance.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="2dip"
+        android:visibility="invisible"
         android:background="@android:color/black"
         android:gravity="center_horizontal|center_vertical" >
     </TextView>

@@ -35,7 +35,8 @@ public class ClickControlsWidgetService extends Service {
 			RemoteViews remoteViews = new RemoteViews(this.getApplicationContext().getPackageName(), R.layout.widget_layout);
 			Log.w("WidgetExample", String.valueOf(number));
 			// Set the text
-			remoteViews.setTextViewText(R.id.indicator, "up: " + String.valueOf(number));
+			remoteViews.setTextViewText(R.id.indicatorText, "up: " + String.valueOf(number));
+			// remoteViews.setViewVisibility(R.id.imageButton, );
 
 			// Register an onClickListener
 			Intent clickIntent = new Intent(this.getApplicationContext(), ClickControlsWidgetProvider.class);
@@ -45,6 +46,7 @@ public class ClickControlsWidgetService extends Service {
 
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			remoteViews.setOnClickPendingIntent(R.id.control, pendingIntent);
+
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 
