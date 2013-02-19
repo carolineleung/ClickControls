@@ -19,6 +19,8 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 	private static final String TAG = "ClickControls";
 	private static final String WIFI_ENABLED = "wifi_enabled";
 
+	public static final String EXTRA_CONTROL = "com.carolineleung.clickcontrols.TOGGLE";
+
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		ComponentName thisWidget = new ComponentName(context, ClickControlsWidgetProvider.class);
