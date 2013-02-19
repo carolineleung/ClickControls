@@ -41,38 +41,32 @@ public class ClickControlsFactory implements RemoteViewsFactory {
 		extras.putString(ClickControlsWidgetProvider.EXTRA_CONTROL, item);
 		intent.putExtras(extras);
 		entry.setOnClickFillInIntent(android.R.id.text1, intent);
-
-		return null;
+		return entry;
 	}
 
 	@Override
 	public RemoteViews getLoadingView() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 1;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override
 	public void onDataSetChanged() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
