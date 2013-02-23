@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 
 public class ClickControlsWidgetService extends Service {
 
-	private static final String LOG = "de.vogella.android.widget.example";
+	private static final String LOG = "com.carolineleung.clickcontrols";
 
 	@Override
 	public void onStart(Intent intent, int startId) {
