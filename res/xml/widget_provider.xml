@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:autoAdvanceViewId="@+id/controls"
-    android:initialLayout="@layout/widget"
+    android:initialLayout="@layout/widget_layout"
     android:minHeight="72dp"
-    android:minWidth="200dp"
-    android:resizeMode="horizontal"
-    android:updatePeriodMillis="0" >
+    android:minWidth="300dp"
+    android:updatePeriodMillis="300000" >
 
 </appwidget-provider>

@@ -1,13 +1,17 @@
 package com.carolineleung.clickcontrols;
 
+import java.util.Random;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 public class ClickControlsWidgetProvider extends AppWidgetProvider {
@@ -19,7 +23,6 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
 		ComponentName thisWidget = new ComponentName(context, ClickControlsWidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
@@ -35,54 +38,39 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 		for (int widgetId : allWidgetIds) {
 
-			Intent svcIntent = new Intent(context, ClickControlsWidgetService.class);
-			svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-			svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+			// TODO fix below when test on phone
+			// boolean wifiEnabled = wifiManager.isWifiEnabled();
+			SharedPreferences prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+			boolean wifiEnabled = prefs.getBoolean(WIFI_ENABLED, false);
+			Log.d(TAG, "Toggle State: " + wifiEnabled);
 
-			RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.widget);
-			widget.setRemoteAdapter(R.id.controls, svcIntent);
+			int number = (new Random().nextInt(100));
 
-			Intent clickIntent = new Intent(context, ClickControlsActivity.class);
-			PendingIntent clickPendingIntent = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+			wifiEnabled = !wifiEnabled;
+			wifiManager.setWifiEnabled(wifiEnabled);
+			String wifiEnabledText = wifiEnabled ? "on" : "off";
+			Log.i("ClickControlsWidget", "wifi is " + wifiEnabledText + "_" + String.valueOf(number));
 
-			widget.setPendingIntentTemplate(R.id.controls, clickPendingIntent);
-			appWidgetManager.updateAppWidget(widgetId, widget);
+			remoteViews.setTextViewText(R.id.indicatorText, wifiEnabledText + "_" + String.valueOf(number));
+			remoteViews.setViewVisibility(R.id.toggleImage, wifiEnabled ? View.INVISIBLE : View.VISIBLE);
+			remoteViews.setViewVisibility(R.id.indicatorText, wifiEnabled ? View.VISIBLE : View.INVISIBLE);
 
-			super.onUpdate(context, appWidgetManager, appWidgetIds);
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putBoolean(WIFI_ENABLED, wifiEnabled);
+			editor.commit();
 
-			// =======================
-			// // TODO fix below when test on phone
-			// // boolean wifiEnabled = wifiManager.isWifiEnabled();
-			// SharedPreferences prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
-			// boolean wifiEnabled = prefs.getBoolean(WIFI_ENABLED, false);
-			// Log.d(TAG, "Toggle State: " + wifiEnabled);
-			//
-			// int number = (new Random().nextInt(100));
-			//
-			// RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_item);
-			// wifiEnabled = !wifiEnabled;
-			// wifiManager.setWifiEnabled(wifiEnabled);
-			// String wifiEnabledText = wifiEnabled ? "on" : "off";
-			// Log.i("ClickControlsWidget", "wifi is " + wifiEnabledText + "_" + String.valueOf(number));
-			//
-			// remoteViews.setTextViewText(R.id.indicatorText, wifiEnabledText + "_" + String.valueOf(number));
-			// remoteViews.setViewVisibility(R.id.toggleImage, wifiEnabled ? View.INVISIBLE : View.VISIBLE);
-			// remoteViews.setViewVisibility(R.id.indicatorText, wifiEnabled ? View.VISIBLE : View.INVISIBLE);
-			//
-			// SharedPreferences.Editor editor = prefs.edit();
-			// editor.putBoolean(WIFI_ENABLED, wifiEnabled);
-			// editor.commit();
-			//
-			// // Register an onClickListener
-			// Intent intent = new Intent(context, ClickControlsWidgetProvider.class);
-			// intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-			// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-			//
-			// PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-			// remoteViews.setOnClickPendingIntent(R.id.control, pendingIntent);
-			// appWidgetManager.updateAppWidget(widgetId, remoteViews);
+			// Register an onClickListener
+			Intent intent = new Intent(context, ClickControlsWidgetProvider.class);
+			intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			remoteViews.setOnClickPendingIntent(R.id.control, pendingIntent);
+			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
+
 	// @Override
 	// public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 	// Log.w("ClickControlsWidget", "onUpdate method called");

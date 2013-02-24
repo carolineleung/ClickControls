@@ -5,7 +5,7 @@
     android:versionName="0.9" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -28,21 +28,17 @@
                 android:resource="@xml/widget_provider" />
         </receiver>
 
-        <service
-            android:name="ClickControlsWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-
         <activity
             android:name="com.carolineleung.clickcontrols.ClickControlsActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoDisplay" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
+        <service android:name=".ClickControlsWidgetService" />
     </application>
 
 </manifest>
