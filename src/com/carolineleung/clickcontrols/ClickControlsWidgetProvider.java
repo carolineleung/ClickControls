@@ -1,10 +1,13 @@
 package com.carolineleung.clickcontrols;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -17,22 +20,67 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 	public static String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
 	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
 
+	private static boolean toggle3G = false;
+	private static boolean toggleAirplane = false;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+
 		if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_WIFI)) {
-			Log.i("onReceive", ACTION_WIDGET_TOGGLE_WIFI);
+			toggleWifi(context, remoteViews);
+
 		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_3G)) {
-			Log.i("onReceive", ACTION_WIDGET_TOGGLE_3G);
+			toggle3G(context, remoteViews);
+
 		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_AIRPLANE)) {
-			Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
+			toggleAirplane(context, remoteViews);
+
 		} else {
 			super.onReceive(context, intent);
 		}
+
+		ComponentName componentName = new ComponentName(context, ClickControlsWidgetProvider.class);
+		AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
+
 		// if (intent.getAction() == null) {
 		// context.startService(new Intent(context, ClickControlsWidgetService.class));
 		// } else {
 		// super.onReceive(context, intent);
 		// }
+	}
+
+	private void toggle3G(Context context, RemoteViews remoteViews) {
+		Log.i("onReceive", ACTION_WIDGET_TOGGLE_3G);
+		if (toggle3G) {
+			remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_on);
+		}
+		toggle3G = !toggle3G;
+	}
+
+	private void toggleAirplane(Context context, RemoteViews remoteViews) {
+		Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
+		if (toggleAirplane) {
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_on);
+		}
+		toggleAirplane = !toggleAirplane;
+	}
+
+	private void toggleWifi(Context context, RemoteViews remoteViews) {
+		Log.i("onReceive", ACTION_WIDGET_TOGGLE_WIFI);
+
+		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
+		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_on);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_off);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+		}
 	}
 
 	@Override
