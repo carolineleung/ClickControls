@@ -21,6 +21,9 @@
         <receiver android:name="ClickControlsWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_WIFI" />
+                <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_3G" />
+                <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AIRPLANE" />
             </intent-filter>
 
             <meta-data

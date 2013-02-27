@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/toggleButton"
+        android:id="@+id/toggleWifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -12,6 +12,34 @@
         android:contentDescription="@string/toggle_desc"
         android:minHeight="50dp"
         android:minWidth="50dp"
-        android:src="@drawable/toggle_off" />
+        android:src="@drawable/toggle_wifi_off" />
+
+    <ImageView
+        android:id="@+id/toggle3g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toggleWifi"
+        android:layout_alignTop="@id/toggleWifi"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/toggleWifi"
+        android:clickable="true"
+        android:contentDescription="@string/toggle_desc"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:src="@drawable/toggle_3g_off" />
+
+    <ImageView
+        android:id="@+id/toggleAirplaneMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toggleWifi"
+        android:layout_alignTop="@id/toggleWifi"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/toggle3g"
+        android:clickable="true"
+        android:contentDescription="@string/toggle_desc"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:src="@drawable/toggle_airplane_off" />
 
 </RelativeLayout>

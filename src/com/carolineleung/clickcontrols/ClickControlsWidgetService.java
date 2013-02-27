@@ -33,16 +33,16 @@ public class ClickControlsWidgetService extends IntentService {
 
 		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
 		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
-			updateViews.setImageViewResource(R.id.toggleButton, R.drawable.toggle_on);
+			updateViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_on);
 			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		} else {
-			updateViews.setImageViewResource(R.id.toggleButton, R.drawable.toggle_off);
+			updateViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_off);
 			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		}
 
 		Intent intent = new Intent(this, ClickControlsWidgetProvider.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-		updateViews.setOnClickPendingIntent(R.id.toggleButton, pi);
+		updateViews.setOnClickPendingIntent(R.id.toggleWifi, pi);
 
 		return updateViews;
 	}

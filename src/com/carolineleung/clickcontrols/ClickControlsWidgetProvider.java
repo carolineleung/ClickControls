@@ -1,26 +1,62 @@
 package com.carolineleung.clickcontrols;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.RemoteViews;
 
 public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	public static final String EXTRA_CONTROL = "com.carolineleung.clickcontrols.TOGGLE";
 
+	// our actions for our buttons
+	public static String ACTION_WIDGET_TOGGLE_WIFI = "ToggleWifi";
+	public static String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
+	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction() == null) {
-			context.startService(new Intent(context, ClickControlsWidgetService.class));
+		if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_WIFI)) {
+			Log.i("onReceive", ACTION_WIDGET_TOGGLE_WIFI);
+		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_3G)) {
+			Log.i("onReceive", ACTION_WIDGET_TOGGLE_3G);
+		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_AIRPLANE)) {
+			Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
 		} else {
 			super.onReceive(context, intent);
 		}
+		// if (intent.getAction() == null) {
+		// context.startService(new Intent(context, ClickControlsWidgetService.class));
+		// } else {
+		// super.onReceive(context, intent);
+		// }
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		context.startService(new Intent(context, ClickControlsWidgetService.class));
+		// context.startService(new Intent(context, ClickControlsWidgetService.class));
+
+		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+
+		Intent active = new Intent(context, ClickControlsWidgetProvider.class);
+		active.setAction(ACTION_WIDGET_TOGGLE_WIFI);
+		PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+		remoteViews.setOnClickPendingIntent(R.id.toggleWifi, actionPendingIntent);
+
+		active = new Intent(context, ClickControlsWidgetProvider.class);
+		active.setAction(ACTION_WIDGET_TOGGLE_3G);
+		actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+		remoteViews.setOnClickPendingIntent(R.id.toggle3g, actionPendingIntent);
+
+		active = new Intent(context, ClickControlsWidgetProvider.class);
+		active.setAction(ACTION_WIDGET_TOGGLE_AIRPLANE);
+		actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+		remoteViews.setOnClickPendingIntent(R.id.toggleAirplaneMode, actionPendingIntent);
+
+		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
 	}
 
 	// @Override
