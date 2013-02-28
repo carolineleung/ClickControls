@@ -44,4 +44,19 @@
         android:minWidth="60dp"
         android:src="@drawable/toggle_airplane_off" />
 
+    <ImageView
+        android:id="@+id/toggleAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toggleWifi"
+        android:layout_alignTop="@id/toggleWifi"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/toggleAirplaneMode"
+        android:background="#DD2ECCFA"
+        android:clickable="true"
+        android:contentDescription="@string/toggle_desc"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:src="@drawable/toggle_sound_off" />
+
 </RelativeLayout>

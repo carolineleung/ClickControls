@@ -25,6 +25,7 @@
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_WIFI" />
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_3G" />
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AIRPLANE" />
+                <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AUDIO" />
             </intent-filter>
 
             <meta-data

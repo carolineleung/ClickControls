@@ -20,12 +20,11 @@ import android.widget.RemoteViews;
 
 public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
-	public static final String EXTRA_CONTROL = "com.carolineleung.clickcontrols.TOGGLE";
-
 	// our actions for our buttons
 	public static String ACTION_WIDGET_TOGGLE_WIFI = "ToggleWifi";
 	public static String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
 	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
+	public static String ACTION_WIDGET_TOGGLE_AUDIO = "ToggleAudio";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -39,6 +38,9 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_AIRPLANE)) {
 			toggleAirplane(context, remoteViews);
+
+		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_AUDIO)) {
+			toggleAudio(context, remoteViews);
 
 		} else {
 			super.onReceive(context, intent);
@@ -89,10 +91,10 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
 		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
 		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
-			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_on);
+			remoteViews.setImageViewResource(R.id.toggleAudio, R.drawable.toggle_sound_on);
 			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		} else {
-			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
+			remoteViews.setImageViewResource(R.id.toggleAudio, R.drawable.toggle_sound_off);
 			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		}
 	}
@@ -147,6 +149,11 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		active.setAction(ACTION_WIDGET_TOGGLE_AIRPLANE);
 		actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 		remoteViews.setOnClickPendingIntent(R.id.toggleAirplaneMode, actionPendingIntent);
+
+		active = new Intent(context, ClickControlsWidgetProvider.class);
+		active.setAction(ACTION_WIDGET_TOGGLE_AUDIO);
+		actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+		remoteViews.setOnClickPendingIntent(R.id.toggleAudio, actionPendingIntent);
 
 		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
 	}
