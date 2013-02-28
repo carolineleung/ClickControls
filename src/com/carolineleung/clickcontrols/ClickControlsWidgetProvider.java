@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -84,7 +85,7 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	}
 
-	private void toggleAirplane(Context context, RemoteViews remoteViews) {
+	private void toggleAudio(Context context, RemoteViews remoteViews) {
 		Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
 		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
 		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
@@ -94,6 +95,24 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
 			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void toggleAirplane(Context context, RemoteViews remoteViews) {
+		boolean isEnabled = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
+
+		if (isEnabled) {
+			Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
+		} else {
+			Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 1);
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_on);
+		}
+
+		// Post an intent to reload
+		Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+		intent.putExtra("state", !isEnabled);
+		context.sendBroadcast(intent);
 	}
 
 	private void toggleWifi(Context context, RemoteViews remoteViews) {
