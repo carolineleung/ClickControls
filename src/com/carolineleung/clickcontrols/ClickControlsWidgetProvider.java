@@ -73,9 +73,10 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 			if (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED) {
 				setMobileDataEnabledMethod.invoke(iConnectivityManager, false);
 				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
+
 			} else if (telephonyManager.getDataState() == TelephonyManager.DATA_DISCONNECTED) {
 				setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
-				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
+				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_on);
 			}
 		} catch (Exception e) {
 			Log.e("onReceive", "Exception when toggling 3G: " + e);
