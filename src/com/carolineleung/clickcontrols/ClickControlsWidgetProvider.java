@@ -1,5 +1,8 @@
 package com.carolineleung.clickcontrols;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -8,7 +11,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -20,8 +25,6 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 	public static String ACTION_WIDGET_TOGGLE_WIFI = "ToggleWifi";
 	public static String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
 	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
-
-	private static boolean toggle3G = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -50,14 +53,34 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		// }
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void toggle3G(Context context, RemoteViews remoteViews) {
 		Log.i("onReceive", ACTION_WIDGET_TOGGLE_3G);
-		if (toggle3G) {
-			remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
-		} else {
-			remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_on);
+		ConnectivityManager connectivityMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		Class connectMgrClass;
+		try {
+			connectMgrClass = Class.forName(connectivityMgr.getClass().getName());
+			Field iConnectivityManagerField = connectMgrClass.getDeclaredField("mService");
+			iConnectivityManagerField.setAccessible(true);
+
+			Object iConnectivityManager = iConnectivityManagerField.get(connectivityMgr);
+			Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+
+			Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+			setMobileDataEnabledMethod.setAccessible(true);
+
+			TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+			if (telephonyManager.getDataState() == TelephonyManager.DATA_CONNECTED) {
+				setMobileDataEnabledMethod.invoke(iConnectivityManager, false);
+				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
+			} else if (telephonyManager.getDataState() == TelephonyManager.DATA_DISCONNECTED) {
+				setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
+				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_off);
+			}
+		} catch (Exception e) {
+			Log.e("onReceive", "Exception when toggling 3G: " + e);
 		}
-		toggle3G = !toggle3G;
+
 	}
 
 	private void toggleAirplane(Context context, RemoteViews remoteViews) {
