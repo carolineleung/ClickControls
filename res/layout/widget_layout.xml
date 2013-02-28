@@ -7,10 +7,11 @@
         android:id="@+id/toggleWifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#DD2ECCFA"
         android:clickable="true"
         android:contentDescription="@string/toggle_desc"
-        android:minHeight="50dp"
-        android:minWidth="50dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
         android:src="@drawable/toggle_wifi_off" />
 
     <ImageView
@@ -21,10 +22,11 @@
         android:layout_alignTop="@id/toggleWifi"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/toggleWifi"
+        android:background="#DD2ECCFA"
         android:clickable="true"
         android:contentDescription="@string/toggle_desc"
-        android:minHeight="50dp"
-        android:minWidth="50dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
         android:src="@drawable/toggle_3g_off" />
 
     <ImageView
@@ -35,10 +37,11 @@
         android:layout_alignTop="@id/toggleWifi"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/toggle3g"
+        android:background="#DD2ECCFA"
         android:clickable="true"
         android:contentDescription="@string/toggle_desc"
-        android:minHeight="50dp"
-        android:minWidth="50dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
         android:src="@drawable/toggle_airplane_off" />
 
 </RelativeLayout>
