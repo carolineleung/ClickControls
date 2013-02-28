@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -21,7 +22,6 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
 
 	private static boolean toggle3G = false;
-	private static boolean toggleAirplane = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -62,24 +62,25 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	private void toggleAirplane(Context context, RemoteViews remoteViews) {
 		Log.i("onReceive", ACTION_WIDGET_TOGGLE_AIRPLANE);
-		if (toggleAirplane) {
-			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
-		} else {
+		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
+		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
 			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_on);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		}
-		toggleAirplane = !toggleAirplane;
 	}
 
 	private void toggleWifi(Context context, RemoteViews remoteViews) {
 		Log.i("onReceive", ACTION_WIDGET_TOGGLE_WIFI);
-
-		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
-		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
-			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_on);
-			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-		} else {
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		if (wifiManager.isWifiEnabled()) {
 			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_off);
-			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+			wifiManager.setWifiEnabled(false);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_on);
+			wifiManager.setWifiEnabled(true);
 		}
 	}
 
