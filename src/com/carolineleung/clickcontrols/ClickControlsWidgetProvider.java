@@ -99,7 +99,6 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void toggleAirplane(Context context, RemoteViews remoteViews) {
 		boolean isEnabled = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
 
