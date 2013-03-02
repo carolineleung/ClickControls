@@ -101,19 +101,20 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	private void toggleAirplane(Context context, RemoteViews remoteViews) {
 		boolean isEnabled = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
-
 		if (isEnabled) {
-			Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
-			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
-		} else {
-			Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 1);
 			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_on);
+		} else {
+			remoteViews.setImageViewResource(R.id.toggleAirplaneMode, R.drawable.toggle_airplane_off);
 		}
 
 		// Post an intent to reload
-		Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-		intent.putExtra("state", !isEnabled);
-		context.sendBroadcast(intent);
+		// Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+		// intent.putExtra("state", !isEnabled);
+		// context.sendBroadcast(intent);
+
+		Intent airplaneSettingsIntent = new Intent(android.provider.Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+		airplaneSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(airplaneSettingsIntent);
 	}
 
 	private void toggleWifi(Context context, RemoteViews remoteViews) {
