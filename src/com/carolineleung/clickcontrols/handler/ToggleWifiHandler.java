@@ -13,7 +13,7 @@ public class ToggleWifiHandler implements WidgetActionHandler {
 
 	@Override
 	public void run(Context context, Intent intent, RemoteViews remoteViews) {
-		Log.i("onReceive", ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_WIFI);
+		Log.i(ClickControlsWidgetProvider.APP_TAG, ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_WIFI);
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		if (wifiManager.isWifiEnabled()) {
 			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_off);

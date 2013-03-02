@@ -23,11 +23,13 @@ import com.carolineleung.clickcontrols.handler.WifiStateListener;
 
 public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
+	public static final String APP_TAG = "ClickControls";
+
 	// Action declarations
-	public static String ACTION_WIDGET_TOGGLE_WIFI = "ToggleWifi";
-	public static String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
-	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
-	public static String ACTION_WIDGET_TOGGLE_AUDIO = "ToggleAudio";
+	public static final String ACTION_WIDGET_TOGGLE_WIFI = "ToggleWifi";
+	public static final String ACTION_WIDGET_TOGGLE_3G = "Toggle3G";
+	public static final String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
+	public static final String ACTION_WIDGET_TOGGLE_AUDIO = "ToggleAudio";
 
 	private Map<String, WidgetActionHandler> actionMap;
 
@@ -43,16 +45,14 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction() == null) {
-			Log.i("onReceive", "Intent has null action: " + intent);
-		}
-		if (actionMap.containsKey(intent.getAction())) {
+		if (intent.getAction() != null && actionMap.containsKey(intent.getAction())) {
 			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			actionMap.get(intent.getAction()).run(context, intent, remoteViews);
 			ComponentName componentName = new ComponentName(context, ClickControlsWidgetProvider.class);
 			AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
 
 		} else {
+			Log.i(APP_TAG, "alternative Intent action: " + intent.getAction());
 			super.onReceive(context, intent);
 		}
 

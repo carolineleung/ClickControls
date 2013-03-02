@@ -14,7 +14,7 @@ public class ToggleAudioHandler implements WidgetActionHandler {
 
 	@Override
 	public void run(Context context, Intent intent, RemoteViews remoteViews) {
-		Log.i("onReceive", ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AIRPLANE);
+		Log.i(ClickControlsWidgetProvider.APP_TAG, ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AIRPLANE);
 		AudioManager audioManager = (AudioManager) context.getSystemService(Activity.AUDIO_SERVICE);
 		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
 			remoteViews.setImageViewResource(R.id.toggleAudio, R.drawable.toggle_sound_on);

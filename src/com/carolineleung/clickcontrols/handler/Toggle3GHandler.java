@@ -18,7 +18,7 @@ public class Toggle3GHandler implements WidgetActionHandler {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void run(Context context, Intent intent, RemoteViews remoteViews) {
-		Log.i("onReceive", ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_3G);
+		Log.i(ClickControlsWidgetProvider.APP_TAG, ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_3G);
 		ConnectivityManager connectivityMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		Class connectMgrClass;
 		try {
@@ -42,7 +42,7 @@ public class Toggle3GHandler implements WidgetActionHandler {
 				remoteViews.setImageViewResource(R.id.toggle3g, R.drawable.toggle_3g_on);
 			}
 		} catch (Exception e) {
-			Log.e("onReceive", "Exception when toggling 3G: " + e);
+			Log.e(ClickControlsWidgetProvider.APP_TAG, "Exception when toggling 3G: " + e);
 		}
 	}
 
