@@ -28,17 +28,13 @@
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_3G" />
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AIRPLANE" />
                 <action android:name="com.carolineleung.clickcontrols.ClickControlsWidgetProvider.ACTION_WIDGET_TOGGLE_AUDIO" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
-        </receiver>
-        <receiver android:name="WifiBroadcastReceiver" >
-            <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
         </receiver>
 
         <activity

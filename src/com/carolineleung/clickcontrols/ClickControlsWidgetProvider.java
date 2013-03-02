@@ -26,6 +26,10 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 	public static String ACTION_WIDGET_TOGGLE_AIRPLANE = "ToggleAirplane";
 	public static String ACTION_WIDGET_TOGGLE_AUDIO = "ToggleAudio";
 
+	public static interface ActionTastic {
+		void run();
+	}
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
@@ -42,9 +46,16 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		} else if (intent.getAction().equals(ACTION_WIDGET_TOGGLE_AUDIO)) {
 			toggleAudio(context, remoteViews);
 
+		} else if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+				|| intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+			updateWifiIcon(context, remoteViews);
+
 		} else {
 			super.onReceive(context, intent);
 		}
+
+		// Map<String, ActionTastic> actionMap = null;
+		// actionMap.get(intent.getACtion).run()
 
 		ComponentName componentName = new ComponentName(context, ClickControlsWidgetProvider.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
@@ -54,6 +65,18 @@ public class ClickControlsWidgetProvider extends AppWidgetProvider {
 		// } else {
 		// super.onReceive(context, intent);
 		// }
+	}
+
+	private void updateWifiIcon(Context context, RemoteViews remoteViews) {
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		if (wifiManager.isWifiEnabled()) {
+			Log.d("WifiReceiver", "Have Wifi Connection");
+			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_on);
+
+		} else {
+			Log.d("WifiReceiver", "Don't have Wifi Connection");
+			remoteViews.setImageViewResource(R.id.toggleWifi, R.drawable.toggle_wifi_off);
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
