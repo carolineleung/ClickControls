@@ -1,8 +1,16 @@
 package com.carolineleung.clickcontrols;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
+import android.view.ext.SatelliteMenu;
+import android.view.ext.SatelliteMenu.SateliteClickedListener;
+import android.view.ext.SatelliteMenuItem;
 
 public class ClickControlsActivity extends Activity {
 
@@ -10,6 +18,31 @@ public class ClickControlsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.click_controls);
+
+		SatelliteMenu clickControlsMenu = (SatelliteMenu) findViewById(R.id.click_controls_menu);
+		clickControlsMenu.setCloseItemsOnClick(true);
+		clickControlsMenu.setExpandDuration(500);
+		clickControlsMenu.setMainImage(R.drawable.ic_launcher);
+		float distance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getResources().getDisplayMetrics());
+		clickControlsMenu.setSatelliteDistance((int) distance);
+		clickControlsMenu.setTotalSpacingDegree(90);
+
+		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
+		items.add(new SatelliteMenuItem(4, R.drawable.ic_1));
+		items.add(new SatelliteMenuItem(4, R.drawable.ic_3));
+		items.add(new SatelliteMenuItem(4, R.drawable.ic_4));
+		items.add(new SatelliteMenuItem(3, R.drawable.ic_5));
+		items.add(new SatelliteMenuItem(2, R.drawable.ic_6));
+		items.add(new SatelliteMenuItem(1, R.drawable.ic_2));
+		// items.add(new SatelliteMenuItem(5, R.drawable.sat_item));
+		clickControlsMenu.addItems(items);
+
+		clickControlsMenu.setOnItemClickedListener(new SateliteClickedListener() {
+
+			public void eventOccured(int id) {
+				Log.i("sat", "Clicked on " + id);
+			}
+		});
 	}
 
 	@Override
