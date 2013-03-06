@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.ext.SatelliteMenu;
 import android.view.ext.SatelliteMenu.SateliteClickedListener;
 import android.view.ext.SatelliteMenuItem;
+
+import com.carolineleung.clickcontrols.content.CustomScaleAnimation;
 
 public class ClickControlsActivity extends Activity {
 
@@ -41,6 +44,8 @@ public class ClickControlsActivity extends Activity {
 
 			public void eventOccured(int id) {
 				Log.i("sat", "Clicked on " + id);
+				Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), CustomScaleAnimation.class);
+				startActivity(intent);
 			}
 		});
 	}

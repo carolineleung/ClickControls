@@ -8,5 +8,8 @@
     <string name="threeG">3G</string>
     <string name="vibrate">vibrate</string>
     <string name="toggle_desc">Toggle Description</string>
+    <string name="github">GitHub</string>
+    <string name="github_label">SlidingMenu on GitHub</string>
+    <string name="anim_scale">Scale</string>
 
 </resources>
