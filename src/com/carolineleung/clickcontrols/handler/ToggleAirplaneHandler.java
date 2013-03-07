@@ -9,6 +9,7 @@ import com.carolineleung.clickcontrols.R;
 
 public class ToggleAirplaneHandler implements WidgetActionHandler {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run(Context context, Intent intent, RemoteViews remoteViews) {
 		boolean isEnabled = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
