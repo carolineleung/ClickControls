@@ -3,6 +3,8 @@ package com.carolineleung.clickcontrols.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,25 +21,25 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class BaseActivity extends SlidingFragmentActivity {
 
-	private int mTitleRes;
-	protected ListFragment mFrag;
+	private int mTitle;
+	protected ListFragment mFragment;
 
 	public BaseActivity(int titleRes) {
-		mTitleRes = titleRes;
+		mTitle = titleRes;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setTitle(mTitleRes);
+		setTitle(mTitle);
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
-		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-		mFrag = new SampleListFragment();
-		t.replace(R.id.menu_frame, mFrag);
-		t.commit();
+		FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+		mFragment = new SampleListFragment();
+		fragmentTransaction.replace(R.id.menu_frame, mFragment);
+		fragmentTransaction.commit();
 
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
@@ -57,7 +59,10 @@ public class BaseActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		case R.id.github:
-			// Util.goToGitHub(this);
+			Uri uriUrl = Uri.parse("http://branchout.com");
+			Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+			this.getApplicationContext().startActivity(launchBrowser);
+
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
