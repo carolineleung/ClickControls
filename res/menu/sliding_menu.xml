@@ -9,29 +9,5 @@
         android:titleCondensed="@string/github"
         android:visible="true">
     </item>
-    <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_launcher"
-        android:showAsAction="always"
-        android:title="@string/github_label"
-        android:titleCondensed="@string/github"
-        android:visible="true">
-    </item>
-    <item
-        android:id="@+id/home2"
-        android:icon="@drawable/ic_launcher"
-        android:showAsAction="always"
-        android:title="@string/github_label"
-        android:titleCondensed="@string/github"
-        android:visible="true">
-    </item>
-    <item
-        android:id="@+id/home3"
-        android:icon="@drawable/ic_launcher"
-        android:showAsAction="always"
-        android:title="@string/github_label"
-        android:titleCondensed="@string/github"
-        android:visible="true">
-    </item>
 
 </menu>
