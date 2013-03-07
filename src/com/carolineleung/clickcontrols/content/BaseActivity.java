@@ -59,13 +59,17 @@ public class BaseActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		case R.id.github:
-			Uri uriUrl = Uri.parse("http://branchout.com");
-			Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-			this.getApplicationContext().startActivity(launchBrowser);
-
+			launchBrowser();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void launchBrowser() {
+		Uri uriUrl = Uri.parse("http://branchout.com");
+		Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+		launchBrowser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		this.getApplicationContext().startActivity(launchBrowser);
 	}
 
 	@Override
