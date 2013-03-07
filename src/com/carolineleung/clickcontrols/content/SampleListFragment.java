@@ -14,6 +14,8 @@ import com.carolineleung.clickcontrols.R;
 
 public class SampleListFragment extends ListFragment {
 
+	private static final int NUM_ROWS = 25;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.list, null);
 	}
@@ -21,8 +23,8 @@ public class SampleListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		SampleAdapter adapter = new SampleAdapter(getActivity());
-		for (int i = 0; i < 20; i++) {
-			adapter.add(new SampleItem("Sample List", android.R.drawable.ic_menu_search));
+		for (int i = 0; i < NUM_ROWS; i++) {
+			adapter.add(new SampleItem("Row " + i, android.R.drawable.ic_menu_search));
 		}
 		setListAdapter(adapter);
 	}

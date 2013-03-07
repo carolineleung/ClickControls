@@ -74,7 +74,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.main, menu);
+		getSupportMenuInflater().inflate(R.menu.sliding_menu, menu);
 		return true;
 	}
 
@@ -82,9 +82,9 @@ public class BaseActivity extends SlidingFragmentActivity {
 		private List<Fragment> mFragments = new ArrayList<Fragment>();
 		private ViewPager mPager;
 
-		public BasePagerAdapter(FragmentManager fm, ViewPager vp) {
+		public BasePagerAdapter(FragmentManager fm, ViewPager viewPager) {
 			super(fm);
-			mPager = vp;
+			mPager = viewPager;
 			mPager.setAdapter(this);
 			for (int i = 0; i < 3; i++) {
 				addTab(new SampleListFragment());
