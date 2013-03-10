@@ -17,16 +17,16 @@ import com.carolineleung.clickcontrols.R;
 public class StyledFragmentActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 
 	private static final String[] TABS = new String[] { "Left", "Middle", "Right" };
-	private static final int MARGIN = 16;
+	private static final int MARGIN = 10;
 
 	private final Handler handler = new Handler();
 
 	private RoundedCornerFragment left;
+	private RoundedCornerFragment middle;
 	private RoundedCornerFragment right;
 
 	private boolean useLogo = false;
 	private boolean showHomeAsUp = false;
-	private boolean leftToggle = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,12 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 
 		showTabsNav();
 		left = new RoundedCornerFragment(getResources().getColor(R.color.styled_purple), 1f, MARGIN, MARGIN / 2, MARGIN, MARGIN);
-		right = new RoundedCornerFragment(getResources().getColor(R.color.styled_pink), 2f, MARGIN / 2, MARGIN, MARGIN, MARGIN);
+		middle = new RoundedCornerFragment(getResources().getColor(R.color.styled_turquoise), 1f, MARGIN / 2, MARGIN / 2, MARGIN, MARGIN);
+		right = new RoundedCornerFragment(getResources().getColor(R.color.styled_pink), 1f, MARGIN / 2, MARGIN, MARGIN, MARGIN);
 
 		FragmentTransaction fragmentTx = getSupportFragmentManager().beginTransaction();
 		fragmentTx.add(R.id.styled, left);
+		fragmentTx.add(R.id.styled, middle);
 		fragmentTx.add(R.id.styled, right);
 		fragmentTx.commit();
 	}
@@ -67,15 +69,20 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 	}
 
 	private void rotateLeftFragment() {
-		if (left != null) {
-			ObjectAnimator.ofFloat(left.getView(), "rotationY", 0, 180).setDuration(500).start();
+		rotateFragment(left);
+	}
 
-		}
+	private void rotateMiddleFragment() {
+		rotateFragment(middle);
 	}
 
 	private void rotateRightFragment() {
-		if (right != null) {
-			ObjectAnimator.ofFloat(right.getView(), "rotationY", 0, 180).setDuration(500).start();
+		rotateFragment(right);
+	}
+
+	private void rotateFragment(RoundedCornerFragment fragment) {
+		if (fragment != null) {
+			ObjectAnimator.ofFloat(fragment.getView(), "rotationY", 0, 180).setDuration(500).start();
 		}
 	}
 
@@ -89,11 +96,17 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		leftToggle = !leftToggle;
-		if (leftToggle) {
+		int whichFragment = tab.getPosition();
+		switch (whichFragment) {
+		case 0:
 			rotateLeftFragment();
-		} else {
+			break;
+		case 1:
+			rotateMiddleFragment();
+			break;
+		case 2:
 			rotateRightFragment();
+			break;
 		}
 	}
 

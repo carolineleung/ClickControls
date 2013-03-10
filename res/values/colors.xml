@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="android_green">#FFA4C639</color>
     <color name="android_blue">#FF58BAED</color>
     <color name="styled_purple">#CCCCFF</color>
     <color name="styled_pink">#FFB7C5</color>
+    <color name="styled_tango">#FF8243</color>
+    <color name="styled_turquoise">#AFEEEE</color>
+
 </resources>
