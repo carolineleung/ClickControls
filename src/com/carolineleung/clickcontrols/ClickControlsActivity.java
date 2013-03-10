@@ -44,8 +44,14 @@ public class ClickControlsActivity extends Activity {
 
 			public void eventOccured(int id) {
 				Log.i("sat", "Clicked on " + id);
-				Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), CustomScaleAnimation.class);
-				startActivity(intent);
+				if (id == 1) {
+					Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), StyledFragmentActivity.class);
+					startActivity(intent);
+
+				} else {
+					Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), CustomScaleAnimation.class);
+					startActivity(intent);
+				}
 			}
 		});
 	}

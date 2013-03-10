@@ -1,5 +1,6 @@
 package com.carolineleung.clickcontrols.styled;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.carolineleung.clickcontrols.R;
 
+@SuppressLint("ValidFragment")
 public class RoundedCornerFragment extends SherlockFragment {
 
 	private View mView;

@@ -1,4 +1,5 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -15,6 +16,47 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!-- Variation on the Holo Light theme that styles the Action Bar -->
+    <style name="Theme.CustomSherlockStyled" parent="Theme.Sherlock.Light">
+        <item name="android:actionBarItemBackground">@drawable/styled_ad_selectable_background</item>
+        <item name="actionBarItemBackground">@drawable/styled_ad_selectable_background</item>
+        <item name="android:popupMenuStyle">@style/StyledPopupMenu</item>
+        <item name="popupMenuStyle">@style/StyledPopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/StyledDropDownListView</item>
+        <item name="dropDownListViewStyle">@style/StyledDropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/StyledActionBarTabStyle</item>
+        <item name="actionBarTabStyle">@style/StyledActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/StyledDropDownNav</item>
+        <item name="actionDropDownStyle">@style/StyledDropDownNav</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/ad_btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/ad_btn_radio_holo_light</item>
+        <!-- <item name="android:actionOverflowButtonStyle">@style/MyOverflowButton</item> -->
+    </style>
+
+    <!-- style the overflow menu -->
+    <style name="StyledPopupMenu" parent="Widget.Sherlock.Light.PopupMenu">
+        <item name="android:popupBackground">@drawable/ad_menu_dropdown_panel_holo_light</item>
+    </style>
+
+    <!-- style the items within the overflow menu -->
+    <style name="StyledDropDownListView" parent="Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/styled_ad_selectable_background</item>
+    </style>
+
+    <!-- style for the tabs -->
+    <style name="StyledActionBarTabStyle" parent="Widget.Sherlock.Light.ActionBar.TabBar">
+        <item name="android:background">@drawable/styled_actionbar_tab_bg</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+    </style>
+
+    <!-- style the list navigation -->
+    <style name="StyledDropDownNav" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/ad_spinner_background_holo_light</item>
+        <item name="android:popupBackground">@drawable/ad_menu_dropdown_panel_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/styled_ad_selectable_background</item>
     </style>
 
 </resources>

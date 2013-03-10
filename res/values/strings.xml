@@ -11,5 +11,7 @@
     <string name="github">GitHub</string>
     <string name="github_label">SlidingMenu on GitHub</string>
     <string name="anim_scale">Scale</string>
+    
+    <string name="styled_activity_name">Styled Activity</string>
 
 </resources>
