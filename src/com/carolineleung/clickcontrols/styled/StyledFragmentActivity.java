@@ -51,8 +51,8 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 		});
 
 		showTabsNav();
-		left = new RoundedCornerFragment(getResources().getColor(R.color.android_green), 1f, MARGIN, MARGIN / 2, MARGIN, MARGIN);
-		right = new RoundedCornerFragment(getResources().getColor(R.color.android_blue), 2f, MARGIN / 2, MARGIN, MARGIN, MARGIN);
+		left = new RoundedCornerFragment(getResources().getColor(R.color.styled_purple), 1f, MARGIN, MARGIN / 2, MARGIN, MARGIN);
+		right = new RoundedCornerFragment(getResources().getColor(R.color.styled_pink), 2f, MARGIN / 2, MARGIN, MARGIN, MARGIN);
 
 		FragmentTransaction fragmentTx = getSupportFragmentManager().beginTransaction();
 		fragmentTx.add(R.id.styled, left);

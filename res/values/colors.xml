@@ -2,4 +2,6 @@
 <resources>
     <color name="android_green">#FFA4C639</color>
     <color name="android_blue">#FF58BAED</color>
+    <color name="styled_purple">#CCCCFF</color>
+    <color name="styled_pink">#FFB7C5</color>
 </resources>
