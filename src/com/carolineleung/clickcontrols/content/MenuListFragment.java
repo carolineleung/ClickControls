@@ -1,13 +1,13 @@
 package com.carolineleung.clickcontrols.content;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carolineleung.clickcontrols.R;
@@ -22,37 +22,40 @@ public class MenuListFragment extends ListFragment {
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		SampleAdapter adapter = new SampleAdapter(getActivity());
+		MenuAdapter adapter = new MenuAdapter(getActivity());
 		for (String menu : MENU_ITEMS) {
-			adapter.add(new SampleItem(menu, android.R.drawable.ic_menu_search));
+			adapter.add(new MenuItem(menu, android.R.drawable.ic_menu_search));
 		}
 		setListAdapter(adapter);
 	}
 
-	private class SampleItem {
-		public String tag;
-		public int iconRes;
+	private class MenuItem {
+		public String menuText;
+		public int menuImageId;
 
-		public SampleItem(String tag, int iconRes) {
-			this.tag = tag;
-			this.iconRes = iconRes;
+		public MenuItem(String tag, int iconRes) {
+			this.menuText = tag;
+			this.menuImageId = iconRes;
 		}
 	}
 
-	public class SampleAdapter extends ArrayAdapter<SampleItem> {
+	public class MenuAdapter extends ArrayAdapter<MenuItem> {
 
-		public SampleAdapter(Context context) {
+		public MenuAdapter(Context context) {
 			super(context, 0);
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.row, null);
+				convertView = LayoutInflater.from(getContext()).inflate(R.layout.menu_row, null);
 			}
-			ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
-			icon.setImageResource(getItem(position).iconRes);
-			TextView title = (TextView) convertView.findViewById(R.id.row_title);
-			title.setText(getItem(position).tag);
+
+			MenuItem menuItem = getItem(position);
+			TextView title = (TextView) convertView.findViewById(R.id.menu_row_text);
+			title.setText(menuItem.menuText);
+			Drawable image = this.getContext().getResources().getDrawable(menuItem.menuImageId);
+			image.setBounds(0, 0, 48, 48);
+			title.setCompoundDrawables(image, null, null, null);
 
 			return convertView;
 		}
