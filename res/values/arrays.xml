@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="styled_tabs">
+        <item>Left</item>
+        <item>Middle</item>
+        <item>Right</item>
+    </string-array>
+
+    <string-array name="styled_sections">
+        <item>Home</item>
+        <item>SDK</item>
+        <item>Dev Guide</item>
+        <item>Reference</item>
+        <item>Resources</item>
+        <item>Videos</item>
+        <item>Blog</item>
+    </string-array>
+
+</resources>

@@ -22,4 +22,7 @@
 
     <integer name="num_cols">1</integer>
 
+    <dimen name="frag_rounding_radius">20dp</dimen>
+    <dimen name="progress_action_padding">8dp</dimen>
+
 </resources>
