@@ -12,12 +12,15 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.nineoldandroids.animation.ObjectAnimator;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.carolineleung.clickcontrols.R;
 
 public class StyledFragmentActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 
 	private static final String[] TABS = new String[] { "Left", "Middle", "Right" };
 	private static final int MARGIN = 10;
+	private static final long ONE_SEC = 1000;
 
 	private final Handler handler = new Handler();
 
@@ -64,8 +67,35 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
+		getSupportMenuInflater().inflate(R.menu.styled_menu, menu);
+
+		final MenuItem refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
+		refresh.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+			public boolean onMenuItemClick(MenuItem item) {
+				handler.postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						refresh.setActionView(null);
+					}
+				}, ONE_SEC);
+				return false;
+			}
+		});
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			return false;
+		case R.id.menu_refresh:
+			item.setActionView(R.layout.styled_progress_action);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void rotateLeftFragment() {
