@@ -14,8 +14,16 @@ import android.view.ext.SatelliteMenu.SateliteClickedListener;
 import android.view.ext.SatelliteMenuItem;
 
 import com.carolineleung.clickcontrols.menu.CustomScaleAnimation;
+import com.carolineleung.clickcontrols.styled.StyledFragmentActivity;
 
 public class ClickControlsActivity extends Activity {
+
+	private static final int SEARCH_ID = 1;
+	private static final int CAMERA_ID = 2;
+	private static final int BUBBLE_ID = 3;
+	private static final int MUSIC_ID = 4;
+	private static final int LOCATION_ID = 5;
+	private static final int PROFILE_ID = 6;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +39,12 @@ public class ClickControlsActivity extends Activity {
 		clickControlsMenu.setTotalSpacingDegree(90);
 
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-		items.add(new SatelliteMenuItem(4, R.drawable.ic_1));
-		items.add(new SatelliteMenuItem(4, R.drawable.ic_3));
-		items.add(new SatelliteMenuItem(4, R.drawable.ic_4));
-		items.add(new SatelliteMenuItem(3, R.drawable.ic_5));
-		items.add(new SatelliteMenuItem(2, R.drawable.ic_6));
-		items.add(new SatelliteMenuItem(1, R.drawable.ic_2));
+		items.add(new SatelliteMenuItem(SEARCH_ID, R.drawable.ic_1));
+		items.add(new SatelliteMenuItem(BUBBLE_ID, R.drawable.ic_3));
+		items.add(new SatelliteMenuItem(MUSIC_ID, R.drawable.ic_4));
+		items.add(new SatelliteMenuItem(LOCATION_ID, R.drawable.ic_5));
+		items.add(new SatelliteMenuItem(PROFILE_ID, R.drawable.ic_6));
+		items.add(new SatelliteMenuItem(CAMERA_ID, R.drawable.ic_2));
 		// items.add(new SatelliteMenuItem(5, R.drawable.sat_item));
 		clickControlsMenu.addItems(items);
 
@@ -44,7 +52,7 @@ public class ClickControlsActivity extends Activity {
 
 			public void eventOccured(int id) {
 				Log.i("sat", "Clicked on " + id);
-				if (id == 1) {
+				if (id == SEARCH_ID) {
 					Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), StyledFragmentActivity.class);
 					startActivity(intent);
 
