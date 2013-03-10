@@ -1,4 +1,4 @@
-package com.carolineleung.clickcontrols.content;
+package com.carolineleung.clickcontrols.menu;
 
 import android.graphics.Canvas;
 

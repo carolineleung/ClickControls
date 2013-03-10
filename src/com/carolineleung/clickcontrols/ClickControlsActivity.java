@@ -13,7 +13,7 @@ import android.view.ext.SatelliteMenu;
 import android.view.ext.SatelliteMenu.SateliteClickedListener;
 import android.view.ext.SatelliteMenuItem;
 
-import com.carolineleung.clickcontrols.content.CustomScaleAnimation;
+import com.carolineleung.clickcontrols.menu.CustomScaleAnimation;
 
 public class ClickControlsActivity extends Activity {
 

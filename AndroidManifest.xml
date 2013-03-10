@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.carolineleung.clickcontrols.content.CustomScaleAnimation" />
+        <activity android:name="com.carolineleung.clickcontrols.menu.CustomScaleAnimation" />
 
         <service android:name=".ClickControlsWidgetService" />
     </application>
