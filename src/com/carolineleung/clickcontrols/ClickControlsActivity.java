@@ -14,6 +14,7 @@ import android.view.ext.SatelliteMenu.SateliteClickedListener;
 import android.view.ext.SatelliteMenuItem;
 
 import com.carolineleung.clickcontrols.menu.CustomScaleAnimation;
+import com.carolineleung.clickcontrols.styled.DeviceDataActivity;
 import com.carolineleung.clickcontrols.styled.StyledFragmentActivity;
 
 public class ClickControlsActivity extends Activity {
@@ -54,6 +55,9 @@ public class ClickControlsActivity extends Activity {
 				Log.i("sat", "Clicked on " + id);
 				if (id == SEARCH_ID) {
 					Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), StyledFragmentActivity.class);
+					startActivity(intent);
+				} else if (id == BUBBLE_ID) {
+					Intent intent = new Intent(ClickControlsActivity.this.getApplicationContext(), DeviceDataActivity.class);
 					startActivity(intent);
 
 				} else {

@@ -51,8 +51,26 @@
         <activity
             android:name="com.carolineleung.clickcontrols.styled.StyledFragmentActivity"
             android:label="@string/styled_activity_name"
-            android:logo="@drawable/ad_logo" 
-            android:theme="@style/Theme.CustomSherlockStyled">
+            android:logo="@drawable/ad_logo"
+            android:theme="@style/Theme.CustomSherlockStyled" >
+        </activity>
+        <activity
+            android:name="com.carolineleung.clickcontrols.styled.FragmentStackSupportActivity"
+            android:label="@string/fragment_stack_support" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.carolineleung.clickcontrols.styled" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.carolineleung.clickcontrols.styled.DeviceDataActivity"
+            android:label="@string/fragment_tabs" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.carolineleung.clickcontrols.styled" />
+            </intent-filter>
         </activity>
 
         <service android:name=".ClickControlsWidgetService" />

@@ -29,4 +29,10 @@
     <string name="action_label_bak_gradient">Gradient</string>
     <string name="action_label_bak_image">Image</string>
 
+    <!-- Device Data -->
+    <string name="new_fragment">New fragment</string>
+    <string name="fragment_stack_support">Stack</string>
+    <string name="new_fragment">New fragment</string>
+    <string name="fragment_tabs">Tabs</string>
+
 </resources>
