@@ -94,8 +94,49 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 		case R.id.menu_refresh:
 			item.setActionView(R.layout.styled_progress_action);
 			return true;
+		case R.id.menu_both:
+			rotateMiddleFragment();
+			return true;
+		case R.id.menu_text:
+			ObjectAnimator alpha = ObjectAnimator.ofFloat(right.getView(), "alpha", 1f, 0f);
+			alpha.setRepeatMode(ObjectAnimator.REVERSE);
+			alpha.setRepeatCount(3);
+			alpha.setDuration(800);
+			alpha.start();
+			return true;
+		case R.id.menu_logo:
+			useLogo = !useLogo;
+			item.setChecked(useLogo);
+			getSupportActionBar().setDisplayUseLogoEnabled(useLogo);
+			return true;
+		case R.id.menu_up:
+			showHomeAsUp = !showHomeAsUp;
+			item.setChecked(showHomeAsUp);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp);
+			return true;
+		case R.id.menu_nav_tabs:
+			item.setChecked(true);
+			showTabsNav();
+			return true;
+		case R.id.menu_nav_label:
+			item.setChecked(true);
+			showStandardNav();
+			return true;
+		case R.id.menu_nav_drop_down:
+			item.setChecked(true);
+			showDropDownListNav();
+			return true;
+		case R.id.menu_bak_none:
+			item.setChecked(true);
+			getSupportActionBar().setBackgroundDrawable(null);
+			return true;
+		case R.id.menu_bak_gradient:
+			item.setChecked(true);
+			getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.styled_ad_action_bar_gradient));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	private void rotateLeftFragment() {
@@ -116,11 +157,23 @@ public class StyledFragmentActivity extends SherlockFragmentActivity implements 
 		}
 	}
 
+	private void showStandardNav() {
+		setActionBarNavMode(ActionBar.NAVIGATION_MODE_STANDARD, true);
+	}
+
 	private void showTabsNav() {
+		setActionBarNavMode(ActionBar.NAVIGATION_MODE_TABS, false);
+	}
+
+	private void showDropDownListNav() {
+		setActionBarNavMode(ActionBar.NAVIGATION_MODE_LIST, false);
+	}
+
+	private void setActionBarNavMode(int navMode, boolean displayShowTitle) {
 		ActionBar actionBar = getSupportActionBar();
-		if (actionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS) {
-			actionBar.setDisplayShowTitleEnabled(false);
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		if (actionBar.getNavigationMode() != navMode) {
+			actionBar.setDisplayShowTitleEnabled(true);
+			actionBar.setNavigationMode(navMode);
 		}
 	}
 
