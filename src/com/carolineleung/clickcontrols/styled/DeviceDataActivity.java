@@ -58,10 +58,10 @@ public class DeviceDataActivity extends SherlockFragmentActivity {
 		private TabInfo mLastTab;
 
 		public DeviceDataTabManager(FragmentActivity activity, TabHost tabHost, int containerId) {
-			super();
 			this.mActivity = activity;
 			this.mTabHost = tabHost;
 			this.mContainerId = containerId;
+			mTabHost.setOnTabChangedListener(this);
 		}
 
 		public void addTab(TabSpec tabSpec, Class<?> aClass, Bundle args) {
@@ -78,6 +78,9 @@ public class DeviceDataActivity extends SherlockFragmentActivity {
 				fragmentTx.detach(info.fragment);
 				fragmentTx.commit();
 			}
+
+			mTabs.put(tag, info);
+			mTabHost.addTab(tabSpec);
 		}
 
 		@Override
