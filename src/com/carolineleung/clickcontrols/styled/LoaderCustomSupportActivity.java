@@ -7,7 +7,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -18,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.content.pm.ActivityInfoCompat;
 import android.support.v4.widget.SearchViewCompat;
@@ -37,7 +41,6 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.carolineleung.clickcontrols.R;
 
 public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
@@ -49,7 +52,8 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 		// Create the fragment as content
 		if (fragmentMgr.findFragmentById(android.R.id.content) == null) {
-
+			InstalledAppListFragment list = new InstalledAppListFragment();
+			fragmentMgr.beginTransaction().add(android.R.id.content, list).commit();
 		}
 	}
 
@@ -99,7 +103,7 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 		private SubscribedConfigChanges mLastConfig = new SubscribedConfigChanges();
 		private PackageManager mPackageManager;
-		private List<AppEntry> mInstalledApps;
+		private List<AppEntry> mApps;
 		PackageIntentReceiver mPackageIntentReceiver;
 
 		public AppListLoader(Context context) {
@@ -108,6 +112,7 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 			// NOTE: use global getContext() instead of the passed in context
 		}
 
+		// Call in background thread - main work task
 		@Override
 		public List<AppEntry> loadInBackground() {
 			// Retrieve all applications, including disabled and uninstalled ones
@@ -126,9 +131,89 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 			}
 
 			Collections.sort(entries, APP_LABEL_COMPARATOR);
-
-			return null;
+			return entries;
 		}
+
+		@Override
+		public void deliverResult(List<AppEntry> appEntries) {
+			if (isReset()) {
+				// An async query comes in while the loader is stopped - ignore the result
+				if (appEntries != null) {
+					onReleaseResources(appEntries);
+				}
+			}
+
+			List<AppEntry> oldEntries = appEntries;
+			mApps = appEntries;
+
+			if (isStarted()) {
+				// Loader has started, deliver the results now
+				super.deliverResult(appEntries);
+			}
+
+			// No longer neeed the old Entries, can release
+			if (oldEntries != null) {
+				onReleaseResources(oldEntries);
+			}
+		}
+
+		@Override
+		protected void onStartLoading() {
+			if (mApps != null) {
+				// Deliver result immediately if it's available
+				deliverResult(mApps);
+			}
+
+			if (mPackageIntentReceiver == null) {
+				mPackageIntentReceiver = new PackageIntentReceiver(this);
+			}
+
+			// Check if there is any interesting changes in the configuration since the app list was last loaded
+			boolean configChange = mLastConfig.applyNewConfig(getContext().getResources());
+
+			if (takeContentChanged() || mApps == null || configChange) {
+				// If data has changed since last load, or is currently unavailable, start a load
+				forceLoad();
+			}
+		}
+
+		@Override
+		protected void onStopLoading() {
+			cancelLoad();
+		}
+
+		@Override
+		public void onCanceled(List<AppEntry> entriesData) {
+			super.onCanceled(entriesData);
+			// Release resources for data
+			onReleaseResources(entriesData);
+		}
+
+		@Override
+		protected void onReset() {
+			super.onReset();
+
+			// Ensure loader is stopped
+			onStartLoading();
+
+			// Release resources
+			if (mApps != null) {
+				onReleaseResources(mApps);
+				mApps = null;
+			}
+
+			// Stop monitoring changes
+			if (mPackageIntentReceiver != null) {
+				getContext().unregisterReceiver(mPackageIntentReceiver);
+				mPackageIntentReceiver = null;
+			}
+		}
+
+		// Helper method to release resources for an actively loaded data set
+		private void onReleaseResources(List<AppEntry> entries) {
+			// if it's a cursor, close it
+		}
+
 	}
 
 	public static final Comparator<AppEntry> APP_LABEL_COMPARATOR = new Comparator<LoaderCustomSupportActivity.AppEntry>() {
@@ -239,7 +324,6 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 		private AppListAdapter mAdapter;
 		private String mCurrFilter;
-		private OnQueryTextListener mOnQueryTextListenerCompat;
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
