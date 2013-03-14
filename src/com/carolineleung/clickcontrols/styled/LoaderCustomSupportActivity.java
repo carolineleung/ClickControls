@@ -20,15 +20,24 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.pm.ActivityInfoCompat;
+import android.support.v4.widget.SearchViewCompat;
+import android.support.v4.widget.SearchViewCompat.OnQueryTextListenerCompat;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.carolineleung.clickcontrols.R;
 
 public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
@@ -201,22 +210,69 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 	public static class InstalledAppListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<List<AppEntry>> {
 
+		private AppListAdapter mAdapter;
+		private String mCurrFilter;
+		private OnQueryTextListener mOnQueryTextListenerCompat;
+
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+			setEmptyText("No applications");
+			setHasOptionsMenu(true);
+
+			mAdapter = new AppListAdapter(getActivity());
+			setListAdapter(mAdapter);
+
+			setListShown(false);
+			getLoaderManager().initLoader(0, null, this);
+		}
+
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+			MenuItem menuItem = menu.add("Search");
+			menuItem.setIcon(android.R.drawable.ic_menu_search);
+			menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+			View searchView = SearchViewCompat.newSearchView(getActivity());
+			if (searchView != null) {
+				SearchViewCompat.setOnQueryTextListener(searchView, new OnQueryTextListenerCompat() {
+
+					@Override
+					public boolean onQueryTextChange(String newText) {
+						mCurrFilter = !TextUtils.isEmpty(newText) ? newText : null;
+						mAdapter.getFilter().filter(mCurrFilter);
+						return true;
+					}
+				});
+				menuItem.setActionView(searchView);
+			}
+		}
+
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			// TODO Implement handling
+			Log.i("LoaderCustomSupport", "Item clicked: " + id);
+		}
+
 		@Override
 		public Loader<List<AppEntry>> onCreateLoader(int arg0, Bundle arg1) {
-			// TODO Auto-generated method stub
-			return null;
+			return new AppListLoader(getActivity());
 		}
 
 		@Override
-		public void onLoadFinished(Loader<List<AppEntry>> arg0, List<AppEntry> arg1) {
-			// TODO Auto-generated method stub
-
+		public void onLoadFinished(Loader<List<AppEntry>> loader, List<AppEntry> appEntriesData) {
+			// Set the new data in the adapter
+			mAdapter.setData(appEntriesData);
+			if (isResumed()) {
+				setListShown(true);
+			} else {
+				setListShownNoAnimation(true);
+			}
 		}
 
 		@Override
-		public void onLoaderReset(Loader<List<AppEntry>> arg0) {
-			// TODO Auto-generated method stub
-
+		public void onLoaderReset(Loader<List<AppEntry>> loader) {
+			mAdapter.setData(null);
 		}
 
 	}
