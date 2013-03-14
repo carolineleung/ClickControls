@@ -1,6 +1,10 @@
 package com.carolineleung.clickcontrols.styled;
 
 import java.io.File;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -12,10 +16,20 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.content.pm.ActivityInfoCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.carolineleung.clickcontrols.R;
 
 public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
@@ -23,6 +37,8 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		FragmentManager fragmentMgr = getSupportFragmentManager();
+
+		// Create the fragment as content
 		if (fragmentMgr.findFragmentById(android.R.id.content) == null) {
 
 		}
@@ -58,11 +74,35 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 		@Override
 		public List<AppEntry> loadInBackground() {
-			// TODO Auto-generated method stub
+			// Retrieve all applications, including disabled and uninstalled ones
+			List<ApplicationInfo> apps = mPackageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES
+					| PackageManager.GET_DISABLED_COMPONENTS);
+			if (apps == null) {
+				apps = new ArrayList<ApplicationInfo>();
+			}
+
+			Context context = getContext();
+			List<AppEntry> entries = new ArrayList<LoaderCustomSupportActivity.AppEntry>(apps.size());
+			for (ApplicationInfo appInfo : apps) {
+				AppEntry appEntry = new AppEntry(this, appInfo);
+				appEntry.loadLabel(context);
+				entries.add(appEntry);
+			}
+
+			Collections.sort(entries, APP_LABEL_COMPARATOR);
+
 			return null;
 		}
-
 	}
+
+	public static final Comparator<AppEntry> APP_LABEL_COMPARATOR = new Comparator<LoaderCustomSupportActivity.AppEntry>() {
+		private Collator sCollator = Collator.getInstance();
+
+		@Override
+		public int compare(AppEntry entry1, AppEntry entry2) {
+			return sCollator.compare(entry1.getLabel(), entry2.getLabel());
+		}
+	};
 
 	public static class AppEntry {
 
@@ -127,6 +167,58 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	// public static class InstalledAppListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<List<E>>
+	public static class AppListAdapter extends ArrayAdapter<AppEntry> {
+		private LayoutInflater mInflater;
+
+		public AppListAdapter(Context context) {
+			super(context, android.R.layout.simple_list_item_2);
+			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+
+		public void setData(List<AppEntry> appEntriesData) {
+			clear();
+			if (appEntriesData != null) {
+				for (AppEntry appEntry : appEntriesData) {
+					add(appEntry);
+				}
+			}
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view;
+			if (convertView != null) {
+				view = convertView;
+			} else {
+				view = mInflater.inflate(R.layout.app_list_item_icon_text, parent, false);
+			}
+			AppEntry item = getItem(position);
+			((ImageView) view.findViewById(R.id.app_entry_icon)).setImageDrawable(item.getIcon());
+			((TextView) view.findViewById(R.id.app_entry_text)).setText(item.getLabel());
+			return view;
+		}
+	}
+
+	public static class InstalledAppListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<List<AppEntry>> {
+
+		@Override
+		public Loader<List<AppEntry>> onCreateLoader(int arg0, Bundle arg1) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void onLoadFinished(Loader<List<AppEntry>> arg0, List<AppEntry> arg1) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onLoaderReset(Loader<List<AppEntry>> arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
 
 }
