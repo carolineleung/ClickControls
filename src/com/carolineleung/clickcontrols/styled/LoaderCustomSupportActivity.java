@@ -69,11 +69,38 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 		}
 	}
 
+	public static class PackageIntentReceiver extends BroadcastReceiver {
+
+		private AppListLoader mLoader;
+
+		public PackageIntentReceiver(AppListLoader mLoader) {
+			this.mLoader = mLoader;
+
+			IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+			filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+			filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+			filter.addDataScheme("package");
+			mLoader.getContext().registerReceiver(this, filter);
+
+			IntentFilter sdcardFilter = new IntentFilter();
+			sdcardFilter.addAction(IntentCompat.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
+			sdcardFilter.addAction(IntentCompat.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
+			mLoader.getContext().registerReceiver(this, sdcardFilter);
+		}
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mLoader.onContentChanged();
+		}
+
+	}
+
 	public static class AppListLoader extends AsyncTaskLoader<List<AppEntry>> {
 
 		private SubscribedConfigChanges mLastConfig = new SubscribedConfigChanges();
 		private PackageManager mPackageManager;
 		private List<AppEntry> mInstalledApps;
+		PackageIntentReceiver mPackageIntentReceiver;
 
 		public AppListLoader(Context context) {
 			super(context);
