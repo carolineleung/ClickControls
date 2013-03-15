@@ -14,6 +14,7 @@ import android.widget.TabHost.TabSpec;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.carolineleung.clickcontrols.R;
+import com.carolineleung.clickcontrols.styled.applist.AppListFragment;
 
 public class DeviceDataActivity extends SherlockFragmentActivity {
 
@@ -35,6 +36,7 @@ public class DeviceDataActivity extends SherlockFragmentActivity {
 		mTabManager.addTab(mTabHost.newTabSpec("simple").setIndicator("Simple"), FragmentStackSupportActivity.CountingFragment.class, null);
 		mTabManager
 				.addTab(mTabHost.newTabSpec("contacts").setIndicator("Contacts"), LoaderCursorSupportActivity.CursorLoaderListFragment.class, null);
+		mTabManager.addTab(mTabHost.newTabSpec("apps").setIndicator("App Data"), AppListFragment.class, null);
 
 		// TODO - add rest of tabs
 
