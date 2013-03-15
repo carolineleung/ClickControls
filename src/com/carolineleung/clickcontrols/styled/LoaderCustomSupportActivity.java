@@ -52,7 +52,7 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 
 		// Create the fragment as content
 		if (fragmentMgr.findFragmentById(android.R.id.content) == null) {
-			InstalledAppListFragment list = new InstalledAppListFragment();
+			AppListFragment list = new AppListFragment();
 			fragmentMgr.beginTransaction().add(android.R.id.content, list).commit();
 		}
 	}
@@ -320,7 +320,7 @@ public class LoaderCustomSupportActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	public static class InstalledAppListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<List<AppEntry>> {
+	public static class AppListFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<List<AppEntry>> {
 
 		private AppListAdapter mAdapter;
 		private String mCurrFilter;
