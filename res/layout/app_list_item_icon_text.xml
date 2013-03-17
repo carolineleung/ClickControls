@@ -19,6 +19,7 @@
         android:layout_height="48dp"
         android:layout_alignParentRight="true"
         android:layout_gravity="right"
+        android:background="@drawable/styled_ad_selectable_background"
         android:contentDescription="@string/app_name" />
 
 </RelativeLayout>
