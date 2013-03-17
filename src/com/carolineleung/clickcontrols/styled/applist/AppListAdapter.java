@@ -42,7 +42,8 @@ public class AppListAdapter extends ArrayAdapter<AppEntry> {
 		AppEntry item = getItem(position);
 		TextView textView = (TextView) view.findViewById(R.id.app_entry_text);
 		textView.setText(item.getLabel());
-		textView.setCompoundDrawablesWithIntrinsicBounds(item.getIcon(), null, null, null);
+		item.getIcon().setBounds(2, 2, 75, 75);
+		textView.setCompoundDrawables(item.getIcon(), null, null, null);
 		return view;
 	}
 }
