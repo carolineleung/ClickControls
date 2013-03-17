@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carolineleung.clickcontrols.R;
@@ -41,8 +40,9 @@ public class AppListAdapter extends ArrayAdapter<AppEntry> {
 			view = mInflater.inflate(R.layout.app_list_item_icon_text, parent, false);
 		}
 		AppEntry item = getItem(position);
-		((ImageView) view.findViewById(R.id.app_entry_icon)).setImageDrawable(item.getIcon());
-		((TextView) view.findViewById(R.id.app_entry_text)).setText(item.getLabel());
+		TextView textView = (TextView) view.findViewById(R.id.app_entry_text);
+		textView.setText(item.getLabel());
+		textView.setCompoundDrawablesWithIntrinsicBounds(item.getIcon(), null, null, null);
 		return view;
 	}
 }
