@@ -44,11 +44,11 @@ public class AppListAdapter extends ArrayAdapter<AppEntry> {
 		final AppEntry item = getItem(position);
 		TextView textView = (TextView) view.findViewById(R.id.app_entry_text);
 		textView.setText(item.getLabel());
-		item.getIcon().setBounds(0, 0, 75, 75);
+		item.getIcon().setBounds(0, 0, 80, 80);
 		textView.setCompoundDrawables(item.getIcon(), null, null, null);
 
 		ImageButton accessoryButton = (ImageButton) view.findViewById(R.id.app_setting_button);
-		accessoryButton.setImageResource(R.drawable.ad_btn_radio_off_pressed_holo_light);
+		accessoryButton.setImageResource(R.drawable.right_arrow);
 		accessoryButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
